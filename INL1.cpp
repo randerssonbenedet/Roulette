@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <limits>
+#include <ctime>
 
 int main() {
     //Ingångsvariabler
@@ -70,16 +71,63 @@ int main() {
 
     }
     
+    //Spinner roulettehjulet
+    srand(time(0));
+    int hjulet = rand() % 36 + 1;
+
+    //Sorterar inputen så att den kan matchas mot roulettehjulet
+    std::vector<int> ValdaVarden;
+    if (Identifierare == 1) {
+        //Färg har valts
+        if (Farg == "svart") {
+            //Svart representerar jämna nummer
+            for (int i = 1; i <= 36; ++i) {
+                if (i % 2 == 0) {
+                    ValdaVarden.push_back(i);
+                }
+            }
+        } else {
+            //Rött representerar udda nummer
+            for (int i = 1; i <= 36; ++i) {
+                if (i % 2 != 0) {
+                    ValdaVarden.push_back(i);
+                }
+            }
+        }
+    } else {
+        //Siffra har valts
+        ValdaVarden.push_back(Siffra);
+    }
+
+    //Matchar valda siffror mot hjulets värde
+    int Vinst = 3; //1 är färgvinst, 2 är nummervinst, 3 är förlust
+    if (ValdaVarden.size() > 1) {
+        //Färgvinst eller förlust
+        for (int i = 0; i < ValdaVarden.size(); ++i) {
+            if (ValdaVarden[i] == hjulet) {
+                Vinst = 1;
+                break;
+            }
+        }
+    } else {
+        //Nummervinst eller förlust
+        if (ValdaVarden[0] == hjulet) {
+            Vinst = 2;
+        }
+    }
+
+    //Ändrar pengar på kontot utefter vinstsort
 
 
+    std::cout << "VALDAVARDEN: ";
+    for (int i = 0; i < ValdaVarden.size(); ++i) {
+        std::cout << ValdaVarden[i] << " ";
+    }
+    std::cout << std::endl;
 
+    std::cout << "HJULET: " << hjulet << std::endl;
 
-
-    std::cout << "BETTET ÄR!!!!!!" << Siffra << std::endl;
-
-
-
-
+    std::cout << "VINSTSORT: " << Vinst << std::endl;
 
     std::cout << "GAGABBABAOOOGOGOOOOOOO" << std::endl;
     return 0;
