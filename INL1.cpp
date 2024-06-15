@@ -3,78 +3,79 @@
 #include <vector>
 #include <limits>
 #include <ctime>
+using namespace std;
 
 int main() {
     //Ingångsvariabler
-    int StartKapital = 300;
-    std::cout << "Pengar på kontot: " << StartKapital << std::endl;
+    int StartKapital = 1000;
+    cout << "Pengar på kontot: " << StartKapital << endl;
 
     bool SpelSlut;
-    SpelSlut == false;
+    SpelSlut = false;
     while (SpelSlut == false) {
 
         //Tar emot spelarens insats
         int Insats;
         while (true) {
             //Loopar igenom tills en tillfredställande input fås
-            std::cout << "Välj insats: 100kr, 300kr, 500kr ";
-            std::cin >> Insats;
-            if (std::cin.fail()) {
+            cout << "Välj insats: 100kr, 300kr, 500kr ";
+            cin >> Insats;
+            if (cin.fail()) {
                 //Ser till så att inputten är en siffra
-                std::cout << "Vänligen välj en siffra." << std::endl;
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cout << "Vänligen välj en siffra." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
             } else {
                 if (Insats == 100 || Insats== 300 || Insats == 500) {
                     if (Insats > StartKapital) {
-                        std::cout << "Du har inte råd med den insatsen." << std::endl;
+                        cout << "Du har inte råd med den insatsen." << endl;
                     } else {
                         break;
                     }
                 } else {
-                    std::cout << "Vänligen välj 100, 300, eller 500kr." << std::endl;
+                    cout << "Vänligen välj 100, 300, eller 500kr." << endl;
                 }
             }
         }
 
         //Tar emot spelarens färg/nummer
-        std::string FargElSiffra;
-        std::string Farg;
+        string FargElSiffra;
+        string Farg;
         int Siffra;
         int Identifierare = 0; //1 betyder att spelaren valt färg, 2 betyder siffra
         while (true) {
-            std::cout << "Vill du välja farg eller siffra? ";
-            std::cin >> FargElSiffra;
+            cout << "Vill du välja farg eller siffra? ";
+            cin >> FargElSiffra;
 
             if (FargElSiffra == "farg") {
                 //Om spelaren vill betta på färg
-                std::cout << "svart eller rod?";
-                std::cin >> Farg;
+                cout << "svart eller rod?";
+                cin >> Farg;
                 if (Farg == "svart"||Farg == "rod") {
                     Identifierare = 1;
                     break;
                 } else {
-                    std::cout << "Vänligen välj svart eller rod." << std::endl;
+                    cout << "Vänligen välj svart eller rod." << endl;
                 }
             } else if (FargElSiffra == "siffra") {
                 //Om spelaren vill betta på siffra
-                std::cout << "Välj siffra 1-36: ";
-                std::cin >> Siffra;
+                cout << "Välj siffra 1-36: ";
+                cin >> Siffra;
                 //Ser till så att inputten är en siffra
-                if (std::cin.fail()) {
-                    std::cout << "Vänligen välj en siffra." << std::endl;
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                if (cin.fail()) {
+                    cout << "Vänligen välj en siffra." << endl;
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 } else {
                     if (Siffra >= 1 && Siffra <= 36) {
                         Identifierare = 2;
                         break;
                     } else {
-                        std::cout << "Vänligen välj en siffra mellan 1-36." << std::endl;
+                        cout << "Vänligen välj en siffra mellan 1-36." << endl;
                     }
                 }
             } else {    
-                std::cout << "Var god skriv in farg eller siffra." << std::endl;
+                cout << "Var god skriv in farg eller siffra." << endl;
             }
 
         }
@@ -84,7 +85,7 @@ int main() {
         int hjulet = rand() % 36 + 1;
 
         //Sorterar inputen så att den kan matchas mot roulettehjulet
-        std::vector<int> ValdaVarden;
+        vector<int> ValdaVarden;
         if (Identifierare == 1) {
             //Färg har valts
             if (Farg == "svart") {
@@ -124,47 +125,51 @@ int main() {
             }
         }
 
-        //Ändrar pengar på kontot utefter vinstsort
+        //Meddelar resultatet av omgången
+        cout << "Valda siffror: ";
+        for (int i = 0; i < ValdaVarden.size(); ++i) {
+            cout << ValdaVarden[i] << " ";
+        }
+        cout << endl;
+        cout << "Hjulets resultat: " << hjulet << endl;
+
+        //Meddelar utfall och justerar kapitalet
         if (Vinst == 1) {
             StartKapital += 2 * Insats;
+            cout << "Du vann på färg! " << endl;
+            cout << "Vinst: " << 2 * Insats << "kr" <<endl;
         } else if (Vinst == 2) {
             StartKapital += 10 * Insats;
+            cout << "Du vann på siffra! " << endl;
+            cout << "Vinst: " << 10 * Insats << "kr" << endl;
         } else if (Vinst == 3) {
             StartKapital -= Insats;
+            cout << "Du förlorade! " << endl;
+            cout << "Förlust: " << Insats << "kr" << endl;
         }
-
-        //Meddelar resultatet av omgången
-        std::cout << "Valda siffror: ";
-        for (int i = 0; i < ValdaVarden.size(); ++i) {
-            std::cout << ValdaVarden[i] << " ";
-        }
-        std::cout << std::endl;
-        std::cout << "Hjulets resultat: " << hjulet << std::endl;
-        if (Vinst == 1) {
-            std::cout << "Du vann på färg! " << std::endl;
-            std::cout << "Vinst: " << 2 * Insats << "kr" <<std::endl;
-        } else if (Vinst == 2) {
-            std::cout << "Du vann på siffra! " << std::endl;
-            std::cout << "Vinst: " << 10 * Insats << "kr" << std::endl;
-        } else if (Vinst == 3) {
-            std::cout << "Du förlorade! " << std::endl;
-            std::cout << "Förlust: " << Insats << "kr" << std::endl;
-        }
-        std::cout << "Nytt saldo: " << StartKapital << "kr" << std::endl;
+        cout << "Nytt saldo: " << StartKapital << "kr" << endl;
         
         //Förbereder nästa omgång
-        std::string NyOmgang;
-        std::cout << "Vill du köra en ny omgång? ja eller nej";
-        std::cin >> NyOmgang;
-        if (NyOmgang == "ja") {
-            SpelSlut == false;
-        } else {
-            SpelSlut == true;
+        string NyOmgang;
+        while (true) {
+            cout << "Vill du köra en ny omgång? ja eller nej";
+            cin >> NyOmgang;
+            if (NyOmgang == "ja") {
+                SpelSlut = false;
+                break;
+            } else if (NyOmgang == "nej") {
+                SpelSlut = true;
+                cout << "Tack för att du spelade! Du slutade spelet med " << StartKapital << "kr i saldot!" << endl;
+                break;
+            } else {
+                cout << "Skriv in ja eller nej." << endl;
+            }
         }
         
+        //Kollar så att spelaren har råd med en till omgång
         if (StartKapital < 100) {
-            SpelSlut == true;
-            std::cout << "Du har ej råd!" << std::endl;
+            SpelSlut = true;
+            cout << "Du har ej råd att spela mer!" << endl;
         }
     }
     return 0;
